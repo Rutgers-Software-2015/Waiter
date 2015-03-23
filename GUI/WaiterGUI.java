@@ -1,4 +1,5 @@
-package GUI;
+package Waiter.GUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,34 +22,39 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Gradients.*;
+import ADT.Gradients.GradientPanel;
+import Login.LoginWindow;
 
 
-public class AssistFrame extends JFrame implements ActionListener{
+public class WaiterGUI extends JFrame implements ActionListener{
 
-		//Parent Windows
-		public final WaiterGUI parent;
+		//Parent window
+		private final LoginWindow parent;
+		//Windows
+		private ManageTablesFrame manage;
+		private MessengerFrame messenger;
+		private AssistFrame assist;
 		//Swing Variables
 		private JPanel rootPanel,titlePanel,buttonPanel;
 		private GradientPanel backgroundPanel;
-		private JButton backButton,messengerButton,clockInOutButton,manageButton,assistButton;
+		private JButton logoutButton,messengerButton,clockInOutButton,manageButton,assistButton;
 		//private GradientButton logoutButton;
 		private JLabel titleLabel,dateAndTime;
 		//Other Variables
 		private Timer timer;
 		
 		
-		public AssistFrame(WaiterGUI gui)
+		public WaiterGUI(LoginWindow parent)
 		{
 			super();
-			parent = gui;
+			this.parent = parent;
 			init();
 		}
 
 
 		public void init()
 		{
-			this.setTitle("Customer Assistance Interface");
+			this.setTitle("Waiter GUI");
 			this.setResizable(true);
 			this.setSize(900,600);
 			this.frameManipulation();
@@ -56,7 +62,7 @@ public class AssistFrame extends JFrame implements ActionListener{
 			setLocationRelativeTo(null);
 			this.setResizable(false);
 			this.add(rootPanel);
-			this.setVisible(true);
+			this.setVisible(false);
 		}
 
 		public void frameManipulation()
@@ -80,7 +86,8 @@ public class AssistFrame extends JFrame implements ActionListener{
 		{
 			// Create Background Panel
 			backgroundPanel = new GradientPanel();
-			backgroundPanel.setGradient(Color.white, new Color(112,112,255));
+			backgroundPanel.setGradient(Color.white,new Color(153,230,255));
+			//backgroundPanel.setBrightness(backgroundPanel.getColor2(),1);
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
@@ -93,7 +100,7 @@ public class AssistFrame extends JFrame implements ActionListener{
 			titlePanel.setOpaque(false);
 			titlePanel.setBounds(new Rectangle(0,0,900,55));
 			// Set Title
-			titleLabel = new JLabel("Customer Assistance Interface");
+			titleLabel = new JLabel("Wait Staff Interface");
 			titleLabel.setHorizontalAlignment(JLabel.CENTER);
 			titleLabel.setFont(titleLabel.getFont().deriveFont(32.0f));
 			titleLabel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -125,14 +132,14 @@ public class AssistFrame extends JFrame implements ActionListener{
 			buttonPanel.setBounds(new Rectangle(0,0,900,600));
 			buttonPanel.setOpaque(false);
 			// Set Logout Button
-			backButton = new JButton("BACK");
+			logoutButton = new JButton("LOGOUT");
 			//logoutButton.setGradient(Color.blue,Color.gray.brighter());
-			backButton.setOpaque(false);
-			backButton.setBounds(new Rectangle(100,500,700,50));
-			backButton.addActionListener(this);
-			backButton.setFont(backButton.getFont().deriveFont(16.0f));
-			backButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-			backButton.setFocusPainted(false);
+			logoutButton.setOpaque(false);
+			logoutButton.setBounds(new Rectangle(100,500,700,50));
+			logoutButton.addActionListener(this);
+			logoutButton.setFont(logoutButton.getFont().deriveFont(16.0f));
+			logoutButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+			logoutButton.setFocusPainted(false);
 			// Set Messenger Button
 			messengerButton = new JButton("MESSENGER");
 			messengerButton.setBounds(new Rectangle(150,120,270,120));
@@ -161,11 +168,9 @@ public class AssistFrame extends JFrame implements ActionListener{
 			assistButton.setFont(assistButton.getFont().deriveFont(16.0f));
 			assistButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 			assistButton.setFocusPainted(false);
-			// Set Border Line
-			
 			
 			//Add components to Button Panel
-			buttonPanel.add(backButton);
+			buttonPanel.add(logoutButton);
 			buttonPanel.add(messengerButton);
 			buttonPanel.add(clockInOutButton);
 			buttonPanel.add(manageButton);
@@ -175,23 +180,28 @@ public class AssistFrame extends JFrame implements ActionListener{
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object a = e.getSource();
-			if(a == backButton)
+			if(a == logoutButton)
 				{
-				parent.setVisible(true);
-				dispose();
+					this.setVisible(false);
+					parent.setVisible(true);
 				}
 			if(a == messengerButton)
 				{
-				
+					messenger = new MessengerFrame(this);
+					this.setVisible(false);
+					messenger.setVisible(true);
 				}
-				if(a == manageButton)
+			if(a == manageButton)
 				{
-				
+					manage = new ManageTablesFrame(this);
+					this.setVisible(false);
+					manage.setVisible(true);
 				}
 			if(a == assistButton)
 				{
-				
-				
+					assist = new AssistFrame(this);
+					this.setVisible(false);
+					assist.setVisible(true);
 				}
 			if(a == clockInOutButton)
 				{

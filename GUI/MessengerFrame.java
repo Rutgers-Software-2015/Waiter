@@ -1,4 +1,4 @@
-package GUI;
+package Waiter.GUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,35 +21,34 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Gradients.*;
+import ADT.Gradients.*;
 
 
-public class WaiterGUI extends JFrame implements ActionListener{
+public class MessengerFrame extends JFrame implements ActionListener{
 
-		//Windows
-		private ManageTablesFrame manage;
-		private MessengerFrame messenger;
-		private AssistFrame assist;
+		//Parent Windows
+		public final WaiterGUI parent;
 		//Swing Variables
 		private JPanel rootPanel,titlePanel,buttonPanel;
 		private GradientPanel backgroundPanel;
-		private JButton logoutButton,messengerButton,clockInOutButton,manageButton,assistButton;
+		private JButton backButton,messengerButton,clockInOutButton,manageButton,assistButton;
 		//private GradientButton logoutButton;
 		private JLabel titleLabel,dateAndTime;
 		//Other Variables
 		private Timer timer;
 		
 		
-		public WaiterGUI()
+		public MessengerFrame(WaiterGUI gui)
 		{
 			super();
+			parent = gui;
 			init();
 		}
 
 
 		public void init()
 		{
-			this.setTitle("Waiter GUI");
+			this.setTitle("Messenger");
 			this.setResizable(true);
 			this.setSize(900,600);
 			this.frameManipulation();
@@ -81,8 +80,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		{
 			// Create Background Panel
 			backgroundPanel = new GradientPanel();
-			backgroundPanel.setGradient(Color.white,new Color(153,230,255));
-			//backgroundPanel.setBrightness(backgroundPanel.getColor2(),1);
+			backgroundPanel.setGradient(Color.white, new Color(255,255,107));
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
@@ -95,7 +93,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			titlePanel.setOpaque(false);
 			titlePanel.setBounds(new Rectangle(0,0,900,55));
 			// Set Title
-			titleLabel = new JLabel("Waiter/Waitress Interface");
+			titleLabel = new JLabel("Messenger");
 			titleLabel.setHorizontalAlignment(JLabel.CENTER);
 			titleLabel.setFont(titleLabel.getFont().deriveFont(32.0f));
 			titleLabel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -127,14 +125,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			buttonPanel.setBounds(new Rectangle(0,0,900,600));
 			buttonPanel.setOpaque(false);
 			// Set Logout Button
-			logoutButton = new JButton("LOGOUT");
+			backButton = new JButton("BACK");
 			//logoutButton.setGradient(Color.blue,Color.gray.brighter());
-			logoutButton.setOpaque(false);
-			logoutButton.setBounds(new Rectangle(100,500,700,50));
-			logoutButton.addActionListener(this);
-			logoutButton.setFont(logoutButton.getFont().deriveFont(16.0f));
-			logoutButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
-			logoutButton.setFocusPainted(false);
+			backButton.setOpaque(false);
+			backButton.setBounds(new Rectangle(100,500,700,50));
+			backButton.addActionListener(this);
+			backButton.setFont(backButton.getFont().deriveFont(16.0f));
+			backButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
+			backButton.setFocusPainted(false);
 			// Set Messenger Button
 			messengerButton = new JButton("MESSENGER");
 			messengerButton.setBounds(new Rectangle(150,120,270,120));
@@ -165,7 +163,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			assistButton.setFocusPainted(false);
 			
 			//Add components to Button Panel
-			buttonPanel.add(logoutButton);
+			buttonPanel.add(backButton);
 			buttonPanel.add(messengerButton);
 			buttonPanel.add(clockInOutButton);
 			buttonPanel.add(manageButton);
@@ -175,27 +173,23 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object a = e.getSource();
-			if(a == logoutButton)
+			if(a == backButton)
 				{
-					System.exit(0);
+				parent.setVisible(true);
+				dispose();
 				}
 			if(a == messengerButton)
 				{
-					messenger = new MessengerFrame(this);
-					this.setVisible(false);
-					messenger.setVisible(true);
+				
 				}
-			if(a == manageButton)
+				if(a == manageButton)
 				{
-					manage = new ManageTablesFrame(this);
-					this.setVisible(false);
-					manage.setVisible(true);
+				
 				}
 			if(a == assistButton)
 				{
-					assist = new AssistFrame(this);
-					this.setVisible(false);
-					assist.setVisible(true);
+				
+				
 				}
 			if(a == clockInOutButton)
 				{

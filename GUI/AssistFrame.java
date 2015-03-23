@@ -1,4 +1,5 @@
-package GUI;
+package Waiter.GUI;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,10 +22,10 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Gradients.*;
+import ADT.Gradients.*;
 
 
-public class MessengerFrame extends JFrame implements ActionListener{
+public class AssistFrame extends JFrame implements ActionListener{
 
 		//Parent Windows
 		public final WaiterGUI parent;
@@ -38,7 +39,7 @@ public class MessengerFrame extends JFrame implements ActionListener{
 		private Timer timer;
 		
 		
-		public MessengerFrame(WaiterGUI gui)
+		public AssistFrame(WaiterGUI gui)
 		{
 			super();
 			parent = gui;
@@ -48,7 +49,7 @@ public class MessengerFrame extends JFrame implements ActionListener{
 
 		public void init()
 		{
-			this.setTitle("Messenger");
+			this.setTitle("Customer Assistance Interface");
 			this.setResizable(true);
 			this.setSize(900,600);
 			this.frameManipulation();
@@ -80,7 +81,7 @@ public class MessengerFrame extends JFrame implements ActionListener{
 		{
 			// Create Background Panel
 			backgroundPanel = new GradientPanel();
-			backgroundPanel.setGradient(Color.white, new Color(255,255,107));
+			backgroundPanel.setGradient(Color.white, new Color(112,112,255));
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
@@ -93,7 +94,7 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			titlePanel.setOpaque(false);
 			titlePanel.setBounds(new Rectangle(0,0,900,55));
 			// Set Title
-			titleLabel = new JLabel("Messenger");
+			titleLabel = new JLabel("Customer Assistance Interface");
 			titleLabel.setHorizontalAlignment(JLabel.CENTER);
 			titleLabel.setFont(titleLabel.getFont().deriveFont(32.0f));
 			titleLabel.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -161,6 +162,8 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			assistButton.setFont(assistButton.getFont().deriveFont(16.0f));
 			assistButton.setBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED));
 			assistButton.setFocusPainted(false);
+			// Set Border Line
+			
 			
 			//Add components to Button Panel
 			buttonPanel.add(backButton);
