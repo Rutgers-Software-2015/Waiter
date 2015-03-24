@@ -28,8 +28,6 @@ import Login.LoginWindow;
 
 public class WaiterGUI extends JFrame implements ActionListener{
 
-		//Parent window
-		private final LoginWindow parent;
 		//Windows
 		private ManageTablesFrame manage;
 		private MessengerFrame messenger;
@@ -44,10 +42,9 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		private Timer timer;
 		
 		
-		public WaiterGUI(LoginWindow parent)
+		public WaiterGUI()
 		{
 			super();
-			this.parent = parent;
 			init();
 		}
 
@@ -182,7 +179,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			Object a = e.getSource();
 			if(a == logoutButton)
 				{
-					parent.setVisible(true);
+					new LoginWindow();
 					dispose();
 				}
 			if(a == messengerButton)
