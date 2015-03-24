@@ -1,6 +1,6 @@
 package Waiter.GUI;
 
-import java.awt.*;
+import java.awt.*; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DateFormat;
@@ -158,7 +158,7 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			acceptPaymentTitle.setBorder(BorderFactory.createLineBorder(Color.black));
 			acceptPaymentTitle.setBounds(new Rectangle(0,0,655,40));
 			// Table Selection Box setup
-			assignedTables = new JComboBox<String>(getAssignedTables());
+			assignedTables = new JComboBox(getAssignedTables());
 			assignedTables.addActionListener(this);
 			assignedTables.setBounds(new Rectangle(285,60,200,30));
 			// "Select Table" Text Box setup
@@ -596,8 +596,8 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			Iterator i6 = waiter.quantity.iterator();
 			int max = 0;
 			while(i4.hasNext()){
-				int temp = (int)i4.next();
-				int temp2 = (int)i5.next();
+				int temp = (Integer) i4.next();
+				int temp2 = (Integer) i5.next();
 				if(temp > max && temp2 == table_id){
 					max = temp;
 				}
@@ -618,9 +618,9 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 				while(i2.hasNext()){
 					String tempname = (String)i2.next();
 					Float tempprice = (Float)i3.next();
-					Integer tempseat = (int)i4.next();
-					Integer tempid = (int)i5.next();
-					Integer tempquan = (int)i6.next();
+					Integer tempseat = (Integer) i4.next();
+					Integer tempid = (Integer) i5.next();
+					Integer tempquan = (Integer) i6.next();
 					if(tempid == table_id && tempseat == n && flag == true){
 						nameList.add(tempname);
 						priceList.add(""+ tempprice*tempquan);
@@ -650,9 +650,9 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			while(i2.hasNext()){ // Find any payments made
 				String tempname = (String)i2.next();
 				Float tempprice = (Float)i3.next();
-				Integer tempseat = (int)i4.next();
-				Integer tempid = (int)i5.next();
-				Integer tempquan = (int)i6.next();
+				Integer tempseat = (Integer) i4.next();
+				Integer tempid = (Integer) i5.next();
+				Integer tempquan = (Integer) i6.next();
 				if(tempid == table_id && tempseat == 0){
 					nameList.add(tempname);
 					priceList.add(""+ df.format(tempprice));
