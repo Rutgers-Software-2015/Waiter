@@ -21,13 +21,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Waiter.WaiterMainGUI;
 import ADT.Gradients.*;
 
 
 public class MessengerFrame extends JFrame implements ActionListener{
 
 		//Parent Windows
-		public final WaiterGUI parent;
+		public final WaiterMainGUI parent;
 		//Swing Variables
 		private JPanel rootPanel,titlePanel,buttonPanel;
 		private GradientPanel backgroundPanel;
@@ -38,7 +39,7 @@ public class MessengerFrame extends JFrame implements ActionListener{
 		private Timer timer;
 		
 		
-		public MessengerFrame(WaiterGUI gui)
+		public MessengerFrame(WaiterMainGUI gui)
 		{
 			super();
 			parent = gui;

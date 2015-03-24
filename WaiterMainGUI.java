@@ -1,4 +1,4 @@
-package Waiter.GUI;
+package Waiter;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -24,9 +24,12 @@ import javax.swing.event.ChangeListener;
 
 import ADT.Gradients.GradientPanel;
 import Login.LoginWindow;
+import Waiter.GUI.AssistFrame;
+import Waiter.GUI.ManageTablesFrame;
+import Waiter.GUI.MessengerFrame;
 
 
-public class WaiterGUI extends JFrame implements ActionListener{
+public class WaiterMainGUI extends JFrame implements ActionListener{
 
 		//Windows
 		private ManageTablesFrame manage;
@@ -42,7 +45,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		private Timer timer;
 		
 		
-		public WaiterGUI()
+		public WaiterMainGUI()
 		{
 			super();
 			init();

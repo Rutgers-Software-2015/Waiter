@@ -35,6 +35,7 @@ import ADT.Employee;
 import ADT.Order;
 import ADT.TableOrder;
 import ADT.Gradients.GradientPanel;
+import Waiter.WaiterMainGUI;
 import Waiter.Interface.Waiter;
 
 
@@ -42,7 +43,7 @@ import Waiter.Interface.Waiter;
 public class ManageTablesFrame extends JFrame implements ActionListener{
 
 		//Parent Windows
-		public final WaiterGUI parent;
+		public final WaiterMainGUI parent;
 		public final ManageTablesFrame currentFrame = this;
 		//Waiter Interface
 		public Waiter waiter;
@@ -73,7 +74,7 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 		private int paymentButtonPressed = 0;
 		
 		
-		public ManageTablesFrame(WaiterGUI gui)
+		public ManageTablesFrame(WaiterMainGUI gui)
 		{
 			super();
 			parent = gui;

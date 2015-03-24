@@ -22,13 +22,14 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import Waiter.WaiterMainGUI;
 import ADT.Gradients.*;
 
 
 public class AssistFrame extends JFrame implements ActionListener{
 
 		//Parent Windows
-		public final WaiterGUI parent;
+		public final WaiterMainGUI parent;
 		//Swing Variables
 		private JPanel rootPanel,titlePanel,buttonPanel;
 		private GradientPanel backgroundPanel;
@@ -39,7 +40,7 @@ public class AssistFrame extends JFrame implements ActionListener{
 		private Timer timer;
 		
 		
-		public AssistFrame(WaiterGUI gui)
+		public AssistFrame(WaiterMainGUI gui)
 		{
 			super();
 			parent = gui;
