@@ -62,7 +62,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			setLocationRelativeTo(null);
 			this.setResizable(false);
 			this.add(rootPanel);
-			this.setVisible(false);
+			this.setVisible(true);
 		}
 
 		public void frameManipulation()
@@ -182,8 +182,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			Object a = e.getSource();
 			if(a == logoutButton)
 				{
-					this.setVisible(false);
 					parent.setVisible(true);
+					dispose();
 				}
 			if(a == messengerButton)
 				{
