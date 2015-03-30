@@ -27,6 +27,12 @@ import ADT.Gradients.*;
 
 public class MessengerFrame extends JFrame implements ActionListener{
 
+	/**
+	 * This .java file creates a sub-GUI for the Waiter class.
+	 * This sub-GUI handles the Messenger
+	 * author Samuel Baysting
+	 **/
+	
 		//Parent Windows
 		public final WaiterMainGUI parent;
 		//Swing Variables
@@ -38,6 +44,10 @@ public class MessengerFrame extends JFrame implements ActionListener{
 		//Other Variables
 		private Timer timer;
 		
+		/**
+		 * This function initializes the GUI and runs the constructor for JFrame and the Waiter class
+		 * @returns none
+		 **/
 		
 		public MessengerFrame(WaiterMainGUI gui)
 		{
@@ -46,6 +56,10 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			init();
 		}
 
+		/**
+		 * This function sets the parameters for the given JFrame
+		 * @returns none
+		 **/
 
 		public void init()
 		{
@@ -59,6 +73,11 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			this.add(rootPanel);
 			this.setVisible(true);
 		}
+		
+		/**
+		 * This function initializes the JPanels assocaited with the GUI
+		 * @returns none
+		 **/
 
 		public void frameManipulation()
 		{
@@ -67,6 +86,11 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			setButtonPanel();
 			setRootPanel();
 		}
+		
+		/**
+		 * This function initializes the rootPanel JPanel associated with this GUI
+		 * @returns none
+		 **/
 		
 		private void setRootPanel()
 		{
@@ -77,6 +101,11 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			rootPanel.add(backgroundPanel);
 		}
 		
+		/**
+		 * This function initializes the background JPanel and sets the color for it
+		 * @returns none
+		 **/
+		
 		private void setBackgroundPanel()
 		{
 			// Create Background Panel
@@ -85,6 +114,11 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
+		
+		/**
+		 * This function initializes the title panel, date and time
+		 * @returns none
+		 **/
 		
 		private void setTitlePanel()
 		{
@@ -117,6 +151,11 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			titlePanel.add(titleLabel);
 			titlePanel.add(dateAndTime);
 		}
+		
+		/**
+		 * This function initializes the button frame and associated JButtons
+		 * @returns none
+		 **/
 		
 		private void setButtonPanel()
 		{
@@ -171,6 +210,12 @@ public class MessengerFrame extends JFrame implements ActionListener{
 			buttonPanel.add(assistButton);
 		}
 		
+		/**
+		 * This is the action listener for all of the JComponents. This decides what function will be run
+		 * upon some event related to the given JComponents
+		 * @returns none
+		 **/
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object a = e.getSource();
@@ -202,6 +247,12 @@ public class MessengerFrame extends JFrame implements ActionListener{
 					updateClock();
 				}
 		}
+		
+		/**
+		 * This function updates the clock.
+		 * It is called every half of a second
+		 * @returns none
+		 **/
 		
 		private void updateClock() {
             dateAndTime.setText(DateFormat.getDateTimeInstance().format(new Date()));

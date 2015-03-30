@@ -31,6 +31,12 @@ import Waiter.GUI.MessengerFrame;
 
 public class WaiterMainGUI extends JFrame implements ActionListener{
 
+	
+	/**
+	 * This .java file creates the GUI for the Waiter.
+	 * author Samuel Baysting
+	 **/
+	
 		//Windows
 		private ManageTablesFrame manage;
 		private MessengerFrame messenger;
@@ -44,6 +50,10 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 		//Other Variables
 		private Timer timer;
 		
+		/**
+		 * This function initializes and launches the GUI and runs the constructor for JFrame
+		 * @returns none
+		 **/
 		
 		public WaiterMainGUI()
 		{
@@ -51,7 +61,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			init();
 		}
 
-
+		/**
+		 * This function sets the parameters for the GUI window
+		 * @returns none
+		 **/
+		
 		public void init()
 		{
 			this.setTitle("Waiter GUI");
@@ -64,6 +78,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			this.add(rootPanel);
 			this.setVisible(true);
 		}
+		
+		/**
+		 * This function initializes all of the JComponents for this JFrame
+		 * @returns none
+		 **/
 
 		public void frameManipulation()
 		{
@@ -72,6 +91,12 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			setButtonPanel();
 			setRootPanel();
 		}
+		
+		/**
+		 * This function sets up the root panel for this frame which includes the background layout,
+		 * the button layout, the title and the date and time
+		 * @returns none
+		 **/
 		
 		private void setRootPanel()
 		{
@@ -82,6 +107,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			rootPanel.add(backgroundPanel);
 		}
 		
+		/**
+		 * This function sets the background frame and it's color
+		 * @returns none
+		 **/
+		
 		private void setBackgroundPanel()
 		{
 			// Create Background Panel
@@ -91,6 +121,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
+		
+		/**
+		 * This function sets the title and the date and time
+		 * @returns none
+		 **/
 		
 		private void setTitlePanel()
 		{
@@ -123,6 +158,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			titlePanel.add(titleLabel);
 			titlePanel.add(dateAndTime);
 		}
+		
+		/**
+		 * This function initializes all of the JButtons for the main screen
+		 * @returns none
+		 **/
 		
 		private void setButtonPanel()
 		{
@@ -177,6 +217,12 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 			buttonPanel.add(assistButton);
 		}
 		
+		/**
+		 * This is the action listener for all of the JComponents. This decides what function will be run
+		 * upon some event related to the given JComponents
+		 * @returns none
+		 **/
+		
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object a = e.getSource();
@@ -213,6 +259,11 @@ public class WaiterMainGUI extends JFrame implements ActionListener{
 					updateClock();
 				}
 		}
+		
+		/**
+		 * This function runs the update function for the clock shown in the title
+		 * @returns none
+		 **/
 		
 		private void updateClock() {
             dateAndTime.setText(DateFormat.getDateTimeInstance().format(new Date()));

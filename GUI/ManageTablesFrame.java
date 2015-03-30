@@ -42,6 +42,12 @@ import Waiter.Interface.Waiter;
 
 public class ManageTablesFrame extends JFrame implements ActionListener{
 
+	/**
+	 * This .java file creates a sub-GUI for the Waiter class.
+	 * This sub-GUI handles Table Management
+	 * author Samuel Baysting
+	 **/
+	
 		//Parent Windows
 		public final WaiterMainGUI parent;
 		public final ManageTablesFrame currentFrame = this;
@@ -73,6 +79,10 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 		private Float payment;
 		private int paymentButtonPressed = 0;
 		
+		/**
+		 * This function initializes the GUI and runs the constructor for JFrame and the Waiter class
+		 * @returns none
+		 **/
 		
 		public ManageTablesFrame(WaiterMainGUI gui)
 		{
@@ -82,6 +92,10 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			init();
 		}
 
+		/**
+		 * This function sets the parameters for the JFrame window
+		 * @returns none
+		 **/
 
 		public void init()
 		{
@@ -95,6 +109,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			getContentPane().add(rootPanel);
 			this.setVisible(true);
 		}
+		
+		/**
+		 * This function initializes the JPanels associated with this GUI
+		 * @returns none
+		 **/
 
 		public void frameManipulation()
 		{
@@ -107,6 +126,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			setRootPanel();
 		}
 		
+		/**
+		 * This function initializes the rootPanel, which contains all of the other panels
+		 * @returns none
+		 **/
+		
 		private void setRootPanel()
 		{
 			rootPanel = new JPanel();
@@ -117,6 +141,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			rootPanel.add(paymentPanel);
 			rootPanel.add(backgroundPanel);
 		}
+		
+		/**
+		 * This function initializes the status panel, which is a sub-option for the Table Management
+		 * interface
+		 * @returns none
+		 **/
 		
 		private void setStatusPanel()
 		{
@@ -140,6 +170,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 		    //Set default panel visibility
 		    statusPanel.setVisible(false);
 		}
+		
+		/**
+		 * This function initializes the Payment Panel, which is used for the
+		 * Accept Payment function of the Waiter
+		 * @returns none
+		 **/
 		
 		private void setPaymentPanel()
 		{
@@ -213,6 +249,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			paymentPanel.setVisible(false);
 		}
 		
+		/**
+		 * This function initializes the GUI background and sets the color
+		 * @returns none
+		 **/
+		
 		private void setBackgroundPanel()
 		{
 			// Create Background Panel
@@ -221,6 +262,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			backgroundPanel.setLayout(null);
 			backgroundPanel.setBounds(0,0,900,600);
 		}
+		
+		/**
+		 * This function initializes the pop-up number pad associated with the Accept
+		 * Payment function
+		 * @returns none
+		 **/
 		
 		 private void setNumberPad()
 		 {
@@ -416,6 +463,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			
 			
 		 }
+		 
+		 	/**
+			 * This function initializes the title, date and time
+			 * @returns none
+			 **/
 		
 		private void setTitlePanel()
 		{
@@ -448,6 +500,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			titlePanel.add(titleLabel);
 			titlePanel.add(dateAndTime);
 		}
+		
+		/**
+		 * This function initializes the button panel and all of the JButtons
+		 * associated with the panel
+		 * @returns none
+		 **/
 		
 		private void setButtonPanel()
 		{
@@ -499,6 +557,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			buttonPanel.add(refundButton);
 			buttonPanel.add(backButton);
 		}
+		
+		/**
+		 * This is the action listener for all of the JComponents. This decides what function will be run
+		 * upon some event related to the given JComponents
+		 * @returns none
+		 **/
 		
 		// Action Listener
 		public void actionPerformed(ActionEvent e) 
@@ -567,9 +631,20 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 				}
 		}
 		
+		/**
+		 * This is the function that updates the clock. Is called every half of a second by
+		 * the action listener
+		 * @returns none
+		 **/
+		
 		private void updateClock() {
             dateAndTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
         }
+		
+		/**
+		 * This function gets all of the tables assigned to the signed-in waiter
+		 * @returns a Vector of the tables
+		 **/
 		
 		private Vector<String> getAssignedTables()
 		{
@@ -582,6 +657,13 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			Collections.sort(v);
 			return v;
 		}
+		
+		/**
+		 * This function will retrieve all order data from the server.
+		 * This function currently receives information from a fake database.
+		 * Function also organizes the information
+		 * @returns none
+		 **/
 
 		private void retrieveOrderData(){
 			//Find correct table
@@ -703,6 +785,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			this.priceList = priceList;
 		}
 		 
+		/**
+		 * This function gets the most up-to-date table data from the server
+		 * @returns none
+		 **/
+		
 		 private void refreshOrderTable()
 		 {
 			// Get most recent table data
@@ -735,6 +822,12 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			tablemodel.fireTableDataChanged();
 		 }
 		 
+		 /**
+			 * This function sets up the JTable used to display orders for the first time.
+			 * This function is only called during GUI initialization.
+			 * @returns none
+			 **/
+		 
 		 private void tableSetup(){
 			// Table Parameters
 			data = new Vector<Vector<String>>();
@@ -761,6 +854,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 		       }
 		 }
 		 
+		 /**
+			 * This function gets and finds a table ID associated with an TableOrder object
+			 * @returns the integer table ID
+			 **/
+		 
 		 private int returnTableID()
 		 {
 			 Iterator i = waiter.table.iterator();
@@ -778,6 +876,11 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			
 			return table_id;
 		 }
+		 
+		 /**
+			 * This updates the database with the updated order after adjusting the balance
+			 * @returns the integer exit code (0,1,2)
+			 **/
 		 
 		 private int makePayment(float payment)
 		 {
@@ -808,6 +911,10 @@ public class ManageTablesFrame extends JFrame implements ActionListener{
 			 }
 		 }
 		 
+		 /**
+			 * This launches the number pad when necessary
+			 * @returns none
+			 **/
 		 
 		 private void launchNumberPad()
 		 {

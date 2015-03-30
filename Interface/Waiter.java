@@ -11,6 +11,11 @@ import ADT.TableOrder;
 
 public class Waiter {
 	
+	/**
+	 * This .java file handles interface between the GUI and the Waiter
+	 * author Samuel Baysting
+	 **/
+	
 	public LinkedList<TableOrder> table;
 	public LinkedList<String> names;
 	public LinkedList<Float> prices;
@@ -18,10 +23,20 @@ public class Waiter {
 	public LinkedList<Integer> seatNumber;
 	public LinkedList<Integer> quantity;
 	
+	/**
+	 * This function runs the constructor for the waiter class
+	 * @returns none
+	 **/
+	
 	public Waiter(){
 		
 		retrieveCurrentTables();
 	}
+	
+	/**
+	 * This function retrieves the most current table order information from the database
+	 * @returns none
+	 **/
 	
 	public void retrieveCurrentTables()
 	{
@@ -56,6 +71,12 @@ public class Waiter {
 		
 	}
 	
+	/**
+	 * This function takes the information retrieved by the retrieveCurrentTables() function
+	 * and organizes it in a way that the Waiter GUI can understand
+	 * @returns none
+	 **/
+	
 	public void updateChanges()
 	{
 		names = new LinkedList<String>();
@@ -84,6 +105,11 @@ public class Waiter {
 		}
 	}
 	
+	/**
+	 * This function was used for debugging only
+	 * @returns none
+	 **/
+	
 	public void print()
 	{
 		System.out.println("TABLE IDs:");
@@ -108,11 +134,21 @@ public class Waiter {
 		}
 	}
 	
+	/**
+	 * Not yet implemented
+	 * @returns false
+	 **/
+	
 	public boolean viewOrderQueue(int tableNumber)
 	{
 		
 		return false;
 	}
+	
+	/**
+	 * Implemented temporarily within the GUI
+	 * @returns false
+	 **/
 	
 	public boolean acceptPayment(float amount)
 	{	
