@@ -22,7 +22,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ADT.Gradients.GradientPanel;
+import Shared.Gradients.GradientPanel;
 import Login.LoginWindow;
 import Waiter.GUI.AssistFrame;
 import Waiter.GUI.ManageTablesFrame;

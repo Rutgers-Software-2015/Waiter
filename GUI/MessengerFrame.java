@@ -22,7 +22,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Waiter.WaiterMainGUI;
-import ADT.Gradients.*;
+import Shared.Gradients.*;
 
 
 public class MessengerFrame extends JFrame implements ActionListener{

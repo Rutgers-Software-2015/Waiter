@@ -31,10 +31,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import ADT.Employee;
-import ADT.Order;
-import ADT.TableOrder;
-import ADT.Gradients.GradientPanel;
+import Shared.ADT.Employee;
+import Shared.ADT.Order;
+import Shared.ADT.TableOrder;
+import Shared.Gradients.GradientPanel;
 import Waiter.WaiterMainGUI;
 import Waiter.Interface.Waiter;
 

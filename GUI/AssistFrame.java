@@ -23,7 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import Waiter.WaiterMainGUI;
-import ADT.Gradients.*;
+import Shared.Gradients.*;
 
 
 public class AssistFrame extends JFrame implements ActionListener{

@@ -4,9 +4,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Vector;
 
-import ADT.ExampleOrders;
-import ADT.Order;
-import ADT.TableOrder;
+import Shared.ADT.ExampleOrders;
+import Shared.ADT.Order;
+import Shared.ADT.TableOrder;
 
 
 public class Waiter {
