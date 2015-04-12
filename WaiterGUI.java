@@ -45,6 +45,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.border.LineBorder;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
+import javax.swing.JTextArea;
 
 
 
@@ -119,6 +120,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JButton refundHelp;
 				private JLabel label;
 				private GradientButton removeSelectedButton;
+				private Vector<Vector> data3;
+				private Vector columnnames3;
+				private DefaultTableModel tablemodel3;
+				private JTable orderDisplay3;
+				private JScrollPane orderDisplayScroll3;
+				private JLabel refundLabel;
+				private JTextArea refundInput;
+				private GradientButton submitRefundRequest;
 		
 		
 		public WaiterGUI()
@@ -577,11 +586,40 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			selectedTable.setFont(selectedTable.getFont().deriveFont(14.0f));
 			refundPanel.add(selectedTable);
 			
+			//orderDisplay Table
+			tableRefundSetup();
+		    orderDisplayScroll3 = new JScrollPane(orderDisplay3);
+		    orderDisplayScroll3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		    orderDisplayScroll3.getVerticalScrollBar().setUnitIncrement(16);
+		    orderDisplayScroll3.setBounds(new Rectangle(47, 120, 592, 420));
+		    orderDisplayScroll3.setBackground(Color.white);
+		    orderDisplayScroll3.setBorder(BorderFactory.createLineBorder(Color.black));
+		    refundPanel.add(orderDisplayScroll3);
+			
 			refundHelp = new JButton();
 			refundHelp.addActionListener(this);
 			refundHelp.setIcon(new ImageIcon("src\\Waiter\\questionmark.png"));
 			refundHelp.setBounds(844, 0, 50, 48);
 			refundPanel.add(refundHelp);
+			
+			refundLabel = new JLabel("<html><center>Why does the customer <br> want a refund?</center></html>");
+			refundLabel.setHorizontalAlignment(SwingConstants.CENTER);
+			refundLabel.setFont(new Font("Tahoma", Font.PLAIN, 17));
+			refundLabel.setBounds(660, 127, 206, 69);
+			refundPanel.add(refundLabel);
+			
+			refundInput = new JTextArea();
+			refundInput.setFont(new Font("Monospaced", Font.PLAIN, 15));
+			refundInput.setLineWrap(true);
+			refundInput.setBorder(BorderFactory.createLineBorder(Color.black));
+			refundInput.setBounds(660, 219, 206, 111);
+			refundPanel.add(refundInput);
+			
+			submitRefundRequest = new GradientButton("<html><center>Submit Request to <br> Manager</center></html>");
+			submitRefundRequest.setFont(new Font("Tahoma", Font.PLAIN, 16));
+			submitRefundRequest.setBounds(660, 381, 206, 82);
+			submitRefundRequest.addActionListener(this);
+			refundPanel.add(submitRefundRequest);
 		}
 		
 		/**
@@ -646,6 +684,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			if(a == removeSelectedButton)
 			{
 				
+			}
+			if(a == submitRefundRequest)
+			{
+				JOptionPane.showMessageDialog(null, "Request was sent to Manager!","InfoBox", JOptionPane.INFORMATION_MESSAGE);
+				refundInput.setText("");
 			}
 			if(a == statusChangeHelp)
 			{
@@ -931,6 +974,46 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			centerRenderer.setFont(orderDisplay2.getFont().deriveFont(13.0f));
 			for(int x=0;x<tablemodel2.getColumnCount();x++){
 				orderDisplay2.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
+		       }
+		 }
+		 
+		 /**
+			 * This function sets up the Manage Order Queue JTable used to display orders for the first time.
+			 * This function is only called during GUI initialization.
+			 * @returns none
+			 **/
+		 
+		 private void tableRefundSetup(){
+			// Table Parameters
+			data3 = new Vector<Vector>();
+			columnnames3 = new Vector();
+			columnnames3.add("Seat Number");
+			columnnames3.add("Menu Item");
+			columnnames3.add("Quantity");
+			columnnames3.add("Price");
+			columnnames3.add("Checkbox");
+			tablemodel3 = new DefaultTableModel() {
+
+			    @Override
+			    public boolean isCellEditable(int row, int column) {
+			       //all cells false
+			       return false;
+			    }
+			};
+			tablemodel3.setDataVector(data3,columnnames3);
+			orderDisplay3 = new JTable(tablemodel3);
+			orderDisplay3.setOpaque(true);
+			orderDisplay3.setBackground(Color.white);
+			orderDisplay3.setBorder(BorderFactory.createEmptyBorder());
+			orderDisplay3.setShowGrid(false);
+			orderDisplay3.setRowHeight(25);
+			orderDisplay3.setFont(orderDisplay3.getFont().deriveFont(13.0f));
+			orderDisplay3.getTableHeader().setFont(orderDisplay2.getFont().deriveFont(13.0f));
+			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+			centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+			centerRenderer.setFont(orderDisplay3.getFont().deriveFont(13.0f));
+			for(int x=0;x<tablemodel3.getColumnCount();x++){
+				orderDisplay3.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
 		       }
 		 }
 		 
