@@ -39,6 +39,7 @@ import Login.LoginWindow;
 import Shared.Numberpad;
 import Shared.ADT.Order;
 import Shared.ADT.TableOrder;
+import Shared.Communicator.NotificationGUI;
 import Shared.Gradients.*;
 
 import javax.swing.ButtonGroup;
@@ -52,9 +53,14 @@ import javax.swing.JTextArea;
 public class WaiterGUI extends JFrame implements ActionListener{
 
 	
-		/**
+	/**
+	 * This class facilitates interaction between the employee
+	 * and the Waiter restaurant system
+	 * 
+	 * @author Samuel Baysting
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 		//Parent Panels
 		private JPanel rootPanel,titlePanel,buttonPanel;
@@ -128,6 +134,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JLabel refundLabel;
 				private JTextArea refundInput;
 				private GradientButton submitRefundRequest;
+				private NotificationGUI notification;
 		
 		
 		public WaiterGUI()
@@ -155,6 +162,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 	            public void windowClosing(WindowEvent e)
 	            {
 	                new LoginWindow();
+	                notification.close();
 	                dispose();
 	            }
 	        });
@@ -181,6 +189,10 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		
 		private void setRootPanel()
 		{
+			// Create Notification GUI
+			notification = new NotificationGUI();
+			rootPanel.add(notification);
+			// Create all other panels
 			rootPanel.add(titlePanel);
 			rootPanel.add(cardPanel);
 			rootPanel.add(buttonPanel);
@@ -221,8 +233,6 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			titleLabel.setFont(titleLabel.getFont().deriveFont(38f));
 			titleLabel.setBorder(BorderFactory.createLineBorder(Color.black));
 			titleLabel.setBounds(new Rectangle(0, 0, 793, 56));
-			
-			// Add components to Title Panel
 			titlePanel.add(titleLabel);
 			// Set Date and Time
 			dateAndTime = new JLabel();
@@ -635,6 +645,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			if(a == backButton)
 			{
 				new LoginWindow();
+				notification.close();
 				dispose();
 			}
 			if(a == statusButton)
