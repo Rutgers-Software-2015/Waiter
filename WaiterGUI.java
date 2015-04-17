@@ -39,7 +39,7 @@ import Login.LoginWindow;
 import Shared.Numberpad;
 import Shared.ADT.Order;
 import Shared.ADT.TableOrder;
-import Shared.Communicator.NotificationGUI;
+import Shared.Notifications.NotificationBox;
 import Shared.Gradients.*;
 
 import javax.swing.ButtonGroup;
@@ -134,7 +134,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JLabel refundLabel;
 				private JTextArea refundInput;
 				private GradientButton submitRefundRequest;
-				private NotificationGUI notification;
+				private NotificationBox notification;
 		
 		
 		public WaiterGUI()
@@ -190,7 +190,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		private void setRootPanel()
 		{
 			// Create Notification GUI
-			notification = new NotificationGUI();
+			notification = new NotificationBox();
 			rootPanel.add(notification);
 			// Create all other panels
 			rootPanel.add(titlePanel);
