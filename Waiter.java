@@ -62,7 +62,7 @@ public class Waiter {
 			while(iter.hasNext()){
 				Order o = (Order)iter.next();
 				names.add(o.item.STRING_ID);
-				prices.add(o.item.PRICE);
+				prices.add((float)o.item.PRICE);
 				TABLE_ID.add(t.TABLE_ID);
 				seatNumber.add(o.seatNumber);
 				quantity.add(o.Quantity);
@@ -94,7 +94,7 @@ public class Waiter {
 			while(iter.hasNext()){
 				Order o = (Order)iter.next();
 				names.add(o.item.STRING_ID);
-				prices.add(o.item.PRICE);
+				prices.add((float)o.item.PRICE);
 				TABLE_ID.add(t.TABLE_ID);
 				seatNumber.add(o.seatNumber);
 				quantity.add(o.Quantity);
