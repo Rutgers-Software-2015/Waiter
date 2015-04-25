@@ -50,7 +50,12 @@ public class WaiterHandler {
 		
 		comm = new WaiterCommunicator();
 		comm.connect("admin","gradMay17");
-		assignedTables = comm.getAssignedTables();
+		if(comm.getConnectionStatus()==0){
+			assignedTables = comm.getAssignedTables();
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Warning: No Database Connection","Connection", JOptionPane.WARNING_MESSAGE);
+		}
 		
 	}
 	
