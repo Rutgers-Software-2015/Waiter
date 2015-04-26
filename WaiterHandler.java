@@ -57,6 +57,18 @@ public class WaiterHandler {
 	}
 	
 	/**
+	 * Disconnects active connections to DB
+	 * 
+	 * @return void
+	 * 
+	 */
+	
+	public void disconnect()
+	{
+		comm.disconnect();
+	}
+	
+	/**
 	 * This function will access the communicator and retrieve all tables
 	 * assigned to the current waiter
 	 * 
