@@ -1,10 +1,7 @@
 package Waiter;
 
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Vector;
@@ -13,11 +10,28 @@ import Shared.Communicator.DatabaseCommunicator;
 
 public class WaiterCommunicator extends DatabaseCommunicator{
 
+	/**
+	 * This class facilitates interaction between the Waiter Handler
+	 * and the database
+	 * 
+	 * @author Samuel Baysting
+	 * @tester Samuel Baysting
+	 * @debugger Samuel Baysting
+	 * 
+	 */
+	
 	public WaiterCommunicator()
 	{
 		super();
 		connect("admin","gradMay17");
 	}
+	
+	/**
+	 * Retrieve tables assigned to a Waiter from the database
+	 * 
+	 * @return LinkedList of tableIDs
+	 * 
+	 */
 	
 	public LinkedList<Integer> getAssignedTables()
 	{
@@ -59,6 +73,14 @@ public class WaiterCommunicator extends DatabaseCommunicator{
 		return list;
 	}
 	
+	/**
+	 * Returns all the data needed for every table order of a particular tableID
+	 * 
+	 * @param tableNumber
+	 * @return HashMap of order data
+	 * 
+	 */
+	
 	@SuppressWarnings("rawtypes")
 	public HashMap<String,LinkedList> getTableOrders(int tableNumber)
 	{
@@ -81,9 +103,6 @@ public class WaiterCommunicator extends DatabaseCommunicator{
 				
 				rs.first();
 				
-				ResultSetMetaData rsd = rs.getMetaData();
-				int colsize = rsd.getColumnCount();
-		    
 				do{
 					//Column 1: ITEM_NAME (STRING)
 					//Column 2: PRICE (FLOAT)
@@ -126,6 +145,18 @@ public class WaiterCommunicator extends DatabaseCommunicator{
 			return tableOrder;	
 	}
 	
+	/**
+	 * Facilitates the "Make Payment" function of the Waiter interface
+	 * Pushes a payment into the database
+	 * 
+	 * @param tableNumber
+	 * @param payment
+	 * @param cashOrCard - "Cash" or "Card"
+	 * @return 0 - successful
+	 * @return 1 - failed
+	 * 
+	 */
+	
 	public int pushPayment(int tableNumber, float payment, String cashOrCard)
 	{
 		try{
@@ -148,6 +179,19 @@ public class WaiterCommunicator extends DatabaseCommunicator{
 		
 	}
 	
+	/**
+	 * Facilitates the "Manage Order Queue" function of the Waiter interface
+	 * Changes the status of a particular item in the database
+	 * 
+	 * @param data
+	 * @param tableID
+	 * @param newStatus - String
+	 * @return 0 - successful
+	 * @return 1 - failed
+	 * 
+	 */
+	
+	@SuppressWarnings("rawtypes")
 	public int changeItemStatus(Vector data, Integer tableID, String newStatus)
 	{
 		Integer seat = (Integer) data.get(0);

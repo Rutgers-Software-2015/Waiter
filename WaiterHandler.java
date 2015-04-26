@@ -5,27 +5,22 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
 import java.util.Vector;
 
-import javax.swing.ComboBoxModel;
-import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
-import Shared.ADT.ExampleOrders;
-import Shared.ADT.Order;
-import Shared.ADT.TableOrder;
-
-
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class WaiterHandler {
 	
 	/**
-	 * This .java file handles interface between the GUI and the Waiter
+	 * This class facilitates interaction between the Waiter GUI
+	 * and the Waiter communicator
 	 * 
 	 * @author Samuel Baysting
+	 * @tester Samuel Baysting
+	 * @debugger Samuel Baysting
 	 * 
-	 **/
+	 */
 	
 	private LinkedList<Integer> assignedTables = new LinkedList<Integer>();
 	private HashMap<String,LinkedList> tableOrder = new HashMap<String,LinkedList>();
@@ -43,7 +38,9 @@ public class WaiterHandler {
 	
 	/**
 	 * This function runs the constructor for the waiter class
+	 * 
 	 * @returns none
+	 * 
 	 **/
 	
 	public WaiterHandler(){
@@ -75,7 +72,7 @@ public class WaiterHandler {
 	}
 	
 	/**
-	 * This function will set up the data within this class for other classes
+	 * This function will set up the table order data within this class for other classes
 	 * to use based on the parameter given
 	 * 
 	 * @param tableNumber
@@ -84,6 +81,7 @@ public class WaiterHandler {
 	 * 
 	 */
 	
+	@SuppressWarnings({ })
 	public int getInfoForTable(int tableNumber)
 	{
 		currentOrderBalance = (float)0;
@@ -145,6 +143,18 @@ public class WaiterHandler {
 		return names;
 	}
 	
+	/**
+	 * This function checks for possible errors and then requests a payment to be
+	 * sent to the Database
+	 * 
+	 * @param tableNumber
+	 * @param payment
+	 * @param cashOrCard - "Cash" or "Card"
+	 * @return 0 - successful
+	 * @return 1 - failed
+	 * 
+	 */
+	
 	public int makePayment(int tableNumber, float payment, String cashOrCard)
 	{
 		getInfoForTable(tableNumber);
@@ -165,11 +175,14 @@ public class WaiterHandler {
 	}
 	
 	/**
+	 * Returns the 2-dimensional data vector used with the Accept Payment JTable
 	 * 
 	 * @param tableNumber
-	 * @return
+	 * @return Vector<Vector>
+	 * 
 	 */
 	
+	@SuppressWarnings({ })
 	public Vector<Vector> getAcceptPaymentDataVector(int tableNumber)
 	{
 		DecimalFormat df = new DecimalFormat();
@@ -253,11 +266,14 @@ public class WaiterHandler {
 	}
 	
 	/**
+	 * Returns the 2-dimensional data vector used with the Manage Order Queue JTable
 	 * 
 	 * @param tableNumber
-	 * @return
+	 * @return Vector<Vector>
+	 * 
 	 */
 	
+	@SuppressWarnings({ })
 	public Vector<Vector> getManageOrderQueueDataVector(int tableNumber)
 	{
 		DecimalFormat df = new DecimalFormat();
@@ -347,11 +363,14 @@ public class WaiterHandler {
 	}
 	
 	/**
+	 * Returns the 2-dimensional data vector used with the Request Refund JTable
 	 * 
 	 * @param tableNumber
-	 * @return
+	 * @return Vector<Vector>
+	 * 
 	 */
 	
+	@SuppressWarnings({ })
 	public Vector<Vector> getRefundTableDataVector(int tableNumber)
 	{
 		DecimalFormat df = new DecimalFormat();
@@ -435,6 +454,14 @@ public class WaiterHandler {
 		return refundTableDataVector;
 	}
 	
+	/**
+	 * This function takes a string table name and converts it to an integer
+	 * 
+	 * @param tableName
+	 * @return tableID
+	 * 
+	 */
+	
 	public int parseTableName(String tableName)
 	{
 		if(tableName == ""){
@@ -443,6 +470,17 @@ public class WaiterHandler {
 		tableName = tableName.replaceAll("\\D+","");
 		return Integer.parseInt(tableName);
 	}
+	
+	/**
+	 * This function requests a status change for an item in the database
+	 * 
+	 * @param data
+	 * @param tableID
+	 * @param newStatus
+	 * @return 0 - successful
+	 * @return 1 - failed
+	 * 
+	 */
 	
 	public int changeItemStatus(Vector<Vector> data, Integer tableID,String newStatus)
 	{
@@ -453,198 +491,21 @@ public class WaiterHandler {
 		return 0;
 	}
 	
-	
-	/*
-	 * 
-	 * 	
-		 * This function gets all of the tables assigned to the signed-in waiter
-		 * @returns a Vector of the tables
-		 *
-		
-		private Vector<String> getAssignedTables()
-		{
-			Vector<String> v = new Vector<String>();
-			v.add("");
-			Iterator i = waiter.table.iterator();
-			while(i.hasNext()){
-				v.add("Table " + ((TableOrder)i.next()).TABLE_ID);
-			}
-			Collections.sort(v);
-			return v;
-		}
-		
-		
-		 * This function will retrieve all order data from the server.
-		 * This function currently receives information from a fake database.
-		 * Function also organizes the information
-		 * @returns none
-		 
-		 
-		private void retrieveOrderData(){
-			//Find correct table
-			balance = 0;
-			DecimalFormat df = new DecimalFormat();
-			df.setMaximumFractionDigits(2);
-			df.setMinimumFractionDigits(2);
-			int table_id = 0;//returnTableID();
-			Iterator i2 = waiter.names.iterator();
-			Iterator i3 = waiter.prices.iterator();
-			Iterator i4 = waiter.seatNumber.iterator();
-			Iterator i5 = waiter.TABLE_ID.iterator();
-			Iterator i6 = waiter.quantity.iterator();
-			int max = 0;
-			while(i4.hasNext()){
-				int temp = (Integer) i4.next();
-				int temp2 = (Integer) i5.next();
-				if(temp > max && temp2 == table_id){
-					max = temp;
-				}
-			}
-			i4 = waiter.seatNumber.iterator();
-			i5 = waiter.TABLE_ID.iterator();
-			LinkedList<String> nameList = new LinkedList<String>();
-			LinkedList<String> priceList = new LinkedList<String>();
-			LinkedList<String> seatList = new LinkedList<String>();
-			LinkedList<String> quantityList = new LinkedList<String>();
-			for(int n = 1;n <= max;n++){ // Get prices, names, quantities and seat numbers
-				i2 = waiter.names.iterator();
-				i3 = waiter.prices.iterator();
-				i4 = waiter.seatNumber.iterator();
-				i5 = waiter.TABLE_ID.iterator();
-				i6 = waiter.quantity.iterator();
-				boolean flag = false;
-				while(i2.hasNext()){
-					String tempname = (String)i2.next();
-					Float tempprice = (Float)i3.next();
-					Integer tempseat = (Integer) i4.next();
-					Integer tempid = (Integer) i5.next();
-					Integer tempquan = (Integer) i6.next();
-					if(tempid == table_id && tempseat == n && flag == true){
-						nameList.add(tempname);
-						priceList.add(""+ tempprice*tempquan);
-						seatList.add("");
-						quantityList.add(""+ tempquan);
-						balance = balance + tempprice*tempquan;
-					}
-					if(tempid == table_id && tempseat == n && flag == false){
-						nameList.add(tempname);
-						priceList.add(""+ df.format(tempprice*tempquan));
-						seatList.add("Seat "+n+":");
-						quantityList.add(""+ tempquan);
-						balance = balance + tempprice*tempquan;
-						flag = true;
-					}
-				}
-				nameList.add("");
-				priceList.add("");
-				seatList.add("");
-				quantityList.add("");
-			}
-			i2 = waiter.names.iterator();
-			i3 = waiter.prices.iterator();
-			i4 = waiter.seatNumber.iterator();
-			i5 = waiter.TABLE_ID.iterator();
-			i6 = waiter.quantity.iterator();
-			while(i2.hasNext()){ // Find any payments made
-				String tempname = (String)i2.next();
-				Float tempprice = (Float)i3.next();
-				Integer tempseat = (Integer) i4.next();
-				Integer tempid = (Integer) i5.next();
-				Integer tempquan = (Integer) i6.next();
-				if(tempid == table_id && tempseat == 0){
-					nameList.add(tempname);
-					priceList.add(""+ df.format(tempprice));
-					seatList.add("");
-					if(tempquan == 0){
-						quantityList.add("Cash");
-						}
-					else{
-						quantityList.add("Card");
-					}
-					balance = balance + tempprice;
-				}
-			}
-			balance = Math.round(balance*100);
-			balance = balance/100;
-			if(!nameList.isEmpty() && balance > 0){ // Print latest balance
-				quantityList.add("");
-				quantityList.add("BALANCE: ");
-				priceList.add("");
-				priceList.add(""+df.format(balance));
-				nameList.add("");
-				nameList.add("");
-				seatList.add("");
-				seatList.add("");
-				nameList.add("");
-				priceList.add("");
-				seatList.add("");
-				quantityList.add("");
-			}
-			if(!nameList.isEmpty() && balance <= 0){
-				quantityList.add("");
-				quantityList.add("BALANCE: ");
-				priceList.add("");
-				priceList.add("0.00");
-				nameList.add("");
-				nameList.add("");
-				seatList.add("");
-				seatList.add("");
-				nameList.add("");
-				priceList.add("");
-				seatList.add("");
-				quantityList.add("");
-			}
-			this.seatList = seatList;
-			this.nameList = nameList;
-			this.quantityList = quantityList;
-			this.priceList = priceList;
-		}
-		 
-		**
-		 * This function gets the most up-to-date table data from the server
-		 * @returns none
-		 **
-		
-		 private void refreshOrderTable()
-		 {
-			// Get most recent table data
-			 retrieveOrderData();
-			// Setup Table Data
-			data = new Vector<Vector>();
-			Iterator<String> i1 = seatList.iterator();
-			Iterator<String> i2 = nameList.iterator();
-			Iterator<String> i3 = quantityList.iterator();
-			Iterator<String> i4 = priceList.iterator();
-			while(i1.hasNext()){
-				Vector<String> v = new Vector<String>();
-				v.add((String)i1.next());
-				v.add((String)i2.next());
-				v.add((String)i3.next());
-				v.add((String)i4.next());
-				data.add(v);
-			}
-			tablemodel.setDataVector(data,columnnames);
-			tablemodel.fireTableDataChanged();
-			while(tablemodel.getRowCount()<11){ //For formatting purposes
-				Vector<String> v = new Vector<String>();
-				v.add("");
-				v.add("");
-				v.add("");
-				v.add("");
-				data.add(v);
-				tablemodel.setDataVector(data,columnnames);
-			}
-			tablemodel.fireTableDataChanged();
-		 }
-		 
-		 
-	 */
-	
 }
 
+/**
+ * Class used for comparison of two vectors
+ * 
+ * @author Samuel Baysting
+ * @tester Samuel Baysting
+ * @debugger Samuel Baysting
+ *
+ */
+
+@SuppressWarnings("rawtypes")
 class SortBySeatNumber implements Comparator<Vector>{
 	 
-    @Override
+	@Override
     public int compare(Vector e1, Vector e2) {
         if((Integer)e1.get(0) > (Integer)e2.get(0)){
             return 1;

@@ -3,63 +3,35 @@ package Waiter;
 import java.awt.*; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
 import java.util.Vector;
 
-import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
-import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableColumnModel;
 
 import Login.LoginWindow;
 import Shared.Numberpad;
-import Shared.ADT.Order;
-import Shared.ADT.TableOrder;
 import Shared.Notifications.NotificationGUI;
 import Shared.Gradients.*;
 
-import javax.swing.ButtonGroup;
 import javax.swing.border.LineBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.JCheckBox;
-import javax.swing.JList;
 import javax.swing.JTextArea;
 
 
@@ -72,6 +44,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 	 * and the Waiter restaurant system
 	 * 
 	 * @author Samuel Baysting
+	 * @tester Samuel Baysting
+	 * @debugger Samuel Baysting
 	 * 
 	 */
 	
@@ -79,7 +53,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		//Parent Panels
 		private JPanel rootPanel,titlePanel,buttonPanel;
 		private GradientPanel backgroundPanel,buttonPanelBackground,cardPanel;
-		private GradientPanel card1,card2,card3;
+		private GradientPanel card1,card2;
 		//Swing Objects
 		private GradientButton backButton,statusButton,orderQueueButton,acceptPaymentButton,refundButton;
 		private GradientButton payWithCash,payWithCard;
@@ -100,10 +74,9 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JLabel selectedTable,acceptPaymentTitle;
 				private JScrollPane orderDisplayScroll;
 				private JTable orderDisplay;
+				@SuppressWarnings("rawtypes")
 				private JComboBox assignedTables;
-				//Other Variables
-				private float balance = 0;
-				private LinkedList<String> seatList,nameList,priceList,quantityList;
+				@SuppressWarnings("rawtypes")
 				private Vector<Vector> data;
 				private Vector<String> columnnames;
 				private DefaultTableModel tablemodel;
@@ -115,27 +88,35 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JLabel orderQueueTitle;
 				private GradientPanel refundPanel;
 				private JLabel refundTitle;
+				@SuppressWarnings("rawtypes")
 				private JComboBox tableStatusBox;
 				private GradientButton sendChangeRequestButton;
 				private Component newStatusLabel;
+				@SuppressWarnings("rawtypes")
 				private JComboBox assignedTablesBox;
 				private Component tableToChangeLabel;
 				private Vector<String> tableStatuses = null;
+				@SuppressWarnings("rawtypes")
 				private JComboBox assignedTablesQueue;
+				@SuppressWarnings("rawtypes")
 				private JComboBox assignedTablesRefund;
 				private DefaultTableModel tablemodel2;
 				private JTable orderDisplay2;
 				private Vector<String> columnnames2;
+				@SuppressWarnings("rawtypes")
 				private Vector<Vector> data2;
 				private JScrollPane orderDisplayScroll2;
 				private JButton orderQueueHelp;
 				private GradientButton statusChangeButton;
+				@SuppressWarnings("rawtypes")
 				private JComboBox statusChangeBox;
 				private JLabel lblChangeStatusTo;
 				private JButton statusChangeHelp;
 				private JButton paymentHelp;
 				private JButton refundHelp;
+				@SuppressWarnings("rawtypes")
 				private Vector<Vector> data3;
+				@SuppressWarnings("rawtypes")
 				private Vector columnnames3;
 				private DefaultTableModel tablemodel3;
 				private JTable orderDisplay3;
@@ -147,6 +128,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private GradientButton btnSelectAll;
 				private boolean select = false;
 		
+		/**
+		 * Class constructor
+		 * Initialize Waiter GUI window
+		 * 
+		 */
 		
 		public WaiterGUI()
 		{
@@ -155,6 +141,12 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			init();
 		}
 
+		/**
+		 * Set base parameters for the GUI window
+		 * 
+		 * @return void
+		 * 
+		 */
 
 		public void init()
 		{
@@ -183,6 +175,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			this.setVisible(true);
 		}
 
+		/**
+		 * Set up panels within the main JFrame
+		 * 
+		 * @return void
+		 * 
+		 */
+		
 		public void frameManipulation()
 		{
 			rootPanel = new JPanel();
@@ -198,6 +197,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			setRootPanel();
 		}
 		
+		/**
+		 * Adds all of the subpanels to the main rootPanel
+		 * 
+		 * @return void
+		 * 
+		 */
+		
 		private void setRootPanel()
 		{
 			// Create Notification GUI
@@ -210,6 +216,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			rootPanel.add(buttonPanelBackground);
 			rootPanel.add(backgroundPanel);
 		}
+		
+		/**
+		 * Sets up the background panel with colors and size
+		 * 
+		 * @return void
+		 * 
+		 */
 		
 		private void setBackgroundPanel()
 		{
@@ -227,9 +240,12 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			backgroundPanel.setBounds(0,0,1194,672);
 		}
 		
-		//************************************************************
-		//DO NOT edit the following function except for the title name
-		//************************************************************
+		/**
+		 * Set up title panel with title, date and time
+		 * 
+		 * @return void
+		 * 
+		 */
 		
 		private void setTitlePanel()
 		{
@@ -261,9 +277,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			timer.start();
 		}
 		
-		//*********************************************************
-		//DO NOT change the location of the following panel
-		//*********************************************************
+		/**
+		 * Sets up all of the side buttons to reach the main features of
+		 * the program
+		 * 
+		 * @return void
+		 * 
+		 */
 		
 		private void setButtonPanel()
 		{
@@ -315,10 +335,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			buttonPanel.add(backButton);
 		}
 		
-		//********************************************************************************
-		//DO NOT deviate from the card layout or change the size/location of the cardPanel.
-		//Creating and adding cards is OK
-		//********************************************************************************
+		/**
+		 * Set up the panel which contains the interactive part of the GUI
+		 * to assist with Waiter functions
+		 * 
+		 * @return void
+		 * 
+		 */
 		
 		private void setCardPanel()
 		{
@@ -336,7 +359,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			card2.setLayout(new GridLayout(1,0));
 			card2.add(new JButton("NO"));
 			
-			card3 = new GradientPanel(); // Create blank card
+			new GradientPanel();
 			
 			JPanel temp = new JPanel();
 			temp.setOpaque(false);
@@ -349,6 +372,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			cardPanel.setVisible(true);
 		}
 		
+		/**
+		 * Sets up "Request Table Status Change" panel
+		 * 
+		 * @return void
+		 * 
+		 */
+		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void setTableStatusChangeCard()
 		{
 			// Panel setup
@@ -408,6 +439,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			tableStatusPanel.add(statusChangeHelp);
 		}
 		
+		/**
+		 * Sets up "Manage Order Queue" panel
+		 * 
+		 * @return void
+		 * 
+		 */
+		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void setManageOrderQueueCard()
 		{
 			// Panel setup
@@ -487,10 +526,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		 * This function initializes the Payment Panel, which is used for the
 		 * Accept Payment function of the Waiter
 		 * 
-		 * @returns none
+		 * @returns void
 		 * 
 		 **/
 		
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		private void setAcceptPaymentCard()
 		{
 			// Panel setup
@@ -567,6 +607,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			
 		}
 		
+		/**
+		 * Sets up the "Request Refund" panel
+		 * 
+		 * @return void
+		 * 
+		 */
+		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		private void setRefundCard()
 		{
 			// Panel setup
@@ -637,10 +685,13 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		/**
 		 * This is the action listener for all of the JComponents. This decides what function will be run
 		 * upon some event related to the given JComponents
-		 * @returns none
+		 * 
+		 * @return void
+		 * 
 		 **/
 		
 		// Action Listener
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		public void actionPerformed(ActionEvent e) 
 		{
 			Object a = e.getSource();
@@ -830,19 +881,30 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				updateClock();
 			}
 		}
+		
+		/**
+		 * Update clock function
+		 * This function refreshes the clock with the current date and time every 1/2 a second
+		 * 
+		 * @return void
+		 * 
+		 */
 
 
 		private void updateClock() {
             dateAndTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
         }
 		 
-		 /**
-			 * This function sets up the Accept Payment JTable used to display orders for the first time.
-			 * This function is only called during GUI initialization.
-			 * @returns none
-			 **/
+		/**
+		  * This function sets up the Accept Payment JTable used to display orders for the first time.
+		  * This function is only called during GUI initialization.
+		  * 
+		  * @return void
+		  * 
+		  */
 		 
-		 private void tableSetup(){
+		 @SuppressWarnings("rawtypes")
+		private void tableSetup(){
 			// Table Parameters
 			data = new Vector<Vector>();
 			columnnames = new Vector<String>();
@@ -852,7 +914,9 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			columnnames.add("Price");
 			tablemodel = new DefaultTableModel() {
 
-			    @Override
+				private static final long serialVersionUID = 1L;
+
+				@Override
 			    public boolean isCellEditable(int row, int column) {
 			       //all cells false
 			       return false;
@@ -876,12 +940,15 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		 }
 		 
 		 /**
-			 * This function sets up the Manage Order Queue JTable used to display orders for the first time.
-			 * This function is only called during GUI initialization.
-			 * @returns none
-			 **/
+		   * This function sets up the Manage Order Queue JTable used to display orders for the first time.
+		   * This function is only called during GUI initialization.
+		   * 
+		   * @return void
+		   * 
+		   */
 		 
-		 private void tableManageSetup(){
+		 @SuppressWarnings({ "rawtypes", "unchecked" })
+		private void tableManageSetup(){
 			 
 			// Table Parameters
 			data2 = new Vector<Vector>();
@@ -893,6 +960,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			columnnames2.add("Current Status");
 			columnnames2.add("Checkbox");
 			tablemodel2 = new DefaultTableModel(){
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public Class<?> getColumnClass(int column) {
 					
@@ -911,6 +983,9 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			};
 			tablemodel2.setDataVector(data2,columnnames2);
 			orderDisplay2 = new JTable(tablemodel2){
+				
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public boolean isCellEditable(int rowIndex, int colIndex) {
 				
@@ -937,12 +1012,15 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		 }
 		 
 		 /**
-			 * This function sets up the Manage Order Queue JTable used to display orders for the first time.
-			 * This function is only called during GUI initialization.
-			 * @returns none
-			 **/
+		   * This function sets up the Manage Order Queue JTable used to display orders for the first time.
+		   * This function is only called during GUI initialization.
+		   * 
+		   * @return void
+		   * 
+		   */
 		 
-		 private void tableRefundSetup(){
+		 @SuppressWarnings({ "unchecked", "rawtypes" })
+		private void tableRefundSetup(){
 			// Table Parameters
 			data3 = new Vector<Vector>();
 			columnnames3 = new Vector();
@@ -952,6 +1030,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			columnnames3.add("Price");
 			columnnames3.add("Checkbox");
 			tablemodel3 = new DefaultTableModel() {
+
+				private static final long serialVersionUID = 1L;
 
 				@Override
 				public Class<?> getColumnClass(int column) {
@@ -970,6 +1050,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			};
 			tablemodel3.setDataVector(data3,columnnames3);
 			orderDisplay3 = new JTable(tablemodel3){
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public boolean isCellEditable(int rowIndex, int colIndex) {
 				
@@ -995,12 +1080,28 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		       }
 		 }
 		 
+		/**
+		 * Updates the JTable located in the Accept Payment panel
+		 * 
+		 * @param String tableName
+		 * @return void
+		 * 
+		 */
+		 
 		private void updateAcceptPaymentTable(Object tableName) 
 		{
 			int tableNumber = waiter.parseTableName((String)tableName);
 			tablemodel.setDataVector(waiter.getAcceptPaymentDataVector(tableNumber),columnnames);
 			tablemodel.fireTableDataChanged();		
 		}
+		
+		/**
+		 * Updates the JTable located in the Manage Order Queue panel
+		 * 
+		 * @param String tableName
+		 * @return void
+		 * 
+		 */
 		
 		private void updateManageOrderQueueTable(Object tableName)
 		{
@@ -1009,6 +1110,14 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			tablemodel2.fireTableDataChanged();	
 			orderDisplay2.repaint();
 		}
+		
+		/**
+		 * Updates the JTable located in the Request Refund panel
+		 * 
+		 * @param String tableName
+		 * @return void
+		 * 
+		 */
 		
 		private void updateRefundTable(Object tableName)
 		{
@@ -1020,9 +1129,10 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				
 		 
 		 /**
-		   * This launches the number pad when necessary
+		   * Launches the number pad for use with the makePayemnt() function located
+		   * in the Waiter Handler
 		   * 
-		   * @returns none
+		   * @return void
 		   * 
 		   **/
 		 
