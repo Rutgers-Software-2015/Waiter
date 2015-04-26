@@ -277,7 +277,7 @@ public class WaiterHandler {
 			v.add(i3.next());
 			v.add(df.format((Float)i4.next()));
 			v.add(i5.next());
-			v.add(new JCheckBox());
+			v.add(false);//v.add(new JCheckBox());
 			manageOrderQueueDataVector.add(v);
 			v = new Vector();
 		}
@@ -288,7 +288,7 @@ public class WaiterHandler {
 			int next = i+1;
 			if((Integer)manageOrderQueueDataVector.get(cur).get(0) < (Integer)manageOrderQueueDataVector.get(next).get(0)){
 				Vector blank = new Vector();
-				blank.add("");blank.add("");blank.add("");blank.add("");
+				blank.add("");blank.add("");blank.add("");blank.add("");blank.add("");blank.add(false);
 				manageOrderQueueDataVector.insertElementAt(blank, next);
 				i++;
 			}
@@ -296,25 +296,25 @@ public class WaiterHandler {
 		
 		if(payments.size() != 0){ //Add payments
 			v = new Vector();
-			v.add("");v.add("");v.add("");v.add("");
+			v.add("");v.add("");v.add("");v.add("");v.add("");v.add(false);
 			manageOrderQueueDataVector.add(v);
 			v = new Vector();
 			i1 = payments.iterator();
 			i2 = paymentTypes.iterator();
 			while(i1.hasNext()){
-				v.add("");v.add(i2.next());v.add("");v.add("-"+df.format(i1.next()));
+				v.add("");v.add(i2.next());v.add("");v.add("-"+df.format(i1.next()));v.add("");v.add(false);
 				manageOrderQueueDataVector.add(v);
 				v = new Vector();
 			}
 		}
 		
-		v.add("");v.add("");v.add("");v.add(""); //Add balance at the bottom of the list
+		v.add("");v.add("");v.add("");v.add("");v.add("");v.add(false); //Add balance at the bottom of the list
 		manageOrderQueueDataVector.add(v);
 		v = new Vector();
-		v.add("");v.add("BALANCE");v.add("");v.add(df.format(currentOrderBalance));
+		v.add("");v.add("BALANCE");v.add("");v.add(df.format(currentOrderBalance));v.add("");v.add(false);
 		manageOrderQueueDataVector.add(v);
 		v = new Vector();
-		v.add("");v.add("");v.add("");v.add("");
+		v.add("");v.add("");v.add("");v.add("");v.add("");v.add(false);
 		manageOrderQueueDataVector.add(v);
 		
 		while(manageOrderQueueDataVector.size()<16){ //For formatting purposes
@@ -323,6 +323,8 @@ public class WaiterHandler {
 			v.add("");
 			v.add("");
 			v.add("");
+			v.add("");
+			v.add(false);
 			manageOrderQueueDataVector.add(v);
 		}
 		return manageOrderQueueDataVector;
@@ -366,7 +368,7 @@ public class WaiterHandler {
 			v.add(i2.next());
 			v.add(i3.next());
 			v.add(df.format((Float)i4.next()));
-			v.add(new JCheckBox());
+			v.add(false);
 			refundTableDataVector.add(v);
 			v = new Vector();
 		}
@@ -424,6 +426,15 @@ public class WaiterHandler {
 		}
 		tableName = tableName.replaceAll("\\D+","");
 		return Integer.parseInt(tableName);
+	}
+	
+	public int changeItemStatus(Vector<Vector> data, Integer tableID,String newStatus)
+	{
+		for(int i = 0;i < data.size();i++){
+			comm.changeItemStatus(data.get(i),tableID,newStatus);
+		}
+		
+		return 0;
 	}
 	
 	

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import Shared.Communicator.DatabaseCommunicator;
 
@@ -145,6 +146,18 @@ public class WaiterCommunicator extends DatabaseCommunicator{
 			return 1;
 		}
 		
+	}
+	
+	public int changeItemStatus(Vector data, Integer tableID, String newStatus)
+	{
+		Integer seat = (Integer) data.get(0);
+		String item = (String) data.get(1);
+		Integer quantity = (Integer) data.get(2);
+		
+		update("UPDATE MAINDB.TABLE_ORDER SET CURRENT_STATUS=\""+newStatus+"\" WHERE TABLE_ID="+tableID
+				+ " AND ITEM_NAME=\""+item+"\" AND SEAT_NUMBER="+seat+" AND QUANTITY="+quantity+";");
+		
+		return 0;
 	}
 
 

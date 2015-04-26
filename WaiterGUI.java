@@ -3,6 +3,11 @@ package Waiter;
 import java.awt.*; 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
@@ -15,6 +20,7 @@ import java.util.Queue;
 import java.util.Scanner;
 import java.util.Vector;
 
+import javax.swing.AbstractButton;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -30,10 +36,17 @@ import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 
 import Login.LoginWindow;
 import Shared.Numberpad;
@@ -44,6 +57,7 @@ import Shared.Gradients.*;
 
 import javax.swing.ButtonGroup;
 import javax.swing.border.LineBorder;
+import javax.swing.event.TableModelEvent;
 import javax.swing.JCheckBox;
 import javax.swing.JList;
 import javax.swing.JTextArea;
@@ -121,8 +135,6 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JButton statusChangeHelp;
 				private JButton paymentHelp;
 				private JButton refundHelp;
-				private JLabel label;
-				private GradientButton removeSelectedButton;
 				private Vector<Vector> data3;
 				private Vector columnnames3;
 				private DefaultTableModel tablemodel3;
@@ -132,6 +144,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JTextArea refundInput;
 				private GradientButton submitRefundRequest;
 				private NotificationGUI notification;
+				private GradientButton btnSelectAll;
+				private boolean select = false;
 		
 		
 		public WaiterGUI()
@@ -373,7 +387,6 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			tableStatuses.add("");
 			tableStatuses.add("Dirty");
 			tableStatuses.add("Occupied");
-			tableStatuses.add("Reserved");
 			tableStatuses.add("Available");
 			
 			tableStatusBox = new JComboBox(tableStatuses);
@@ -439,23 +452,23 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		    lblChangeStatusTo = new JLabel("Change order status to:");
 		    lblChangeStatusTo.setHorizontalAlignment(SwingConstants.CENTER);
 		    lblChangeStatusTo.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		    lblChangeStatusTo.setBounds(671, 147, 192, 40);
+		    lblChangeStatusTo.setBounds(671, 190, 192, 40);
 		    orderQueuePanel.add(lblChangeStatusTo);
 		    
 		    Vector<String> v = new Vector<String>();
 		    v.add("");
-		    v.add("READY");
-		    v.add("NOT READY");
+		    v.add("SERVED");
 		    v.add("PAID");
 		    v.add("RETURNED");
 		    
 		    statusChangeBox = new JComboBox(v);
-		    statusChangeBox.setBounds(671, 198, 192, 30);
+		    statusChangeBox.setBounds(671, 241, 192, 30);
 		    orderQueuePanel.add(statusChangeBox);
 		    
 		    statusChangeButton = new GradientButton("Confirm");
 		    statusChangeButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		    statusChangeButton.setBounds(671, 269, 192, 78);
+		    statusChangeButton.setBounds(671, 385, 192, 123);
+		    statusChangeButton.addActionListener(this);
 		    orderQueuePanel.add(statusChangeButton);
 		    
 		    orderQueueHelp = new JButton();
@@ -464,17 +477,10 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		    orderQueueHelp.addActionListener(this);
 		    orderQueuePanel.add(orderQueueHelp);
 		    
-		    label = new JLabel("or");
-		    label.setHorizontalAlignment(SwingConstants.CENTER);
-		    label.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		    label.setBounds(671, 358, 192, 62);
-		    orderQueuePanel.add(label);
-		    
-		    removeSelectedButton = new GradientButton("Remove Selected");
-		    removeSelectedButton.addActionListener(this);
-		    removeSelectedButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		    removeSelectedButton.setBounds(671, 431, 192, 78);
-		    orderQueuePanel.add(removeSelectedButton);
+		    btnSelectAll = new GradientButton("Select All");
+		    btnSelectAll.addActionListener(this);
+		    btnSelectAll.setBounds(671, 120, 192, 23);
+		    orderQueuePanel.add(btnSelectAll);
 		}
 		
 		/**
@@ -690,11 +696,18 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			}
 			if(a == sendChangeRequestButton)
 			{
-				//sendChangeRequest();
-			}
-			if(a == removeSelectedButton)
-			{
-				
+				String tableToChange = (String)assignedTablesBox.getSelectedItem();
+				String newStatus = (String)tableStatusBox.getSelectedItem();
+				assignedTablesBox.setSelectedIndex(0);
+				tableStatusBox.setSelectedIndex(0);
+				if(!tableToChange.equals("") && !newStatus.equals("")){
+					if(notification.sendMessage("Host","Request table status change: "+tableToChange+" to "+newStatus)==0){
+						JOptionPane.showMessageDialog(null, "Request was successfully sent to Host!","InfoBox", JOptionPane.INFORMATION_MESSAGE);
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "Request failed to send!","InfoBox", JOptionPane.ERROR_MESSAGE);
+					}
+				}
 			}
 			if(a == assignedTablesRefund)
 			{
@@ -702,8 +715,44 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			}
 			if(a == submitRefundRequest)
 			{
-				JOptionPane.showMessageDialog(null, "Request was sent to Manager!","InfoBox", JOptionPane.INFORMATION_MESSAGE);
-				refundInput.setText("");
+				String currentTable = (String) assignedTablesRefund.getSelectedItem();
+				Vector<String> items = new Vector<String>();
+				Vector<Integer> seatNumbers = new Vector<Integer>();
+				Vector<Integer> quantities = new Vector<Integer>();
+				Vector<String> prices = new Vector<String>();
+				for(int i = 0;i < tablemodel3.getRowCount();i++){
+					if(tablemodel3.getValueAt(i,4)!=null){
+						if(((Boolean)tablemodel3.getValueAt(i,4))==true){
+							items.add((String) tablemodel3.getValueAt(i,1));
+							seatNumbers.add((Integer) tablemodel3.getValueAt(i,0));
+							quantities.add((Integer) tablemodel3.getValueAt(i,2));
+							prices.add((String) tablemodel3.getValueAt(i,3));
+						}
+					}
+				}
+				StringBuilder s = new StringBuilder();
+				s.append("<html>*********** REFUND REQUEST: "+currentTable+" ***********<br><br>");
+				for(int i = 0;i < items.size();i++){
+					s.append("SEAT ");
+					s.append(seatNumbers.get(i));
+					s.append(" ITEM ");
+					s.append(items.get(i));
+					s.append(" QUANTITY ");
+					s.append(quantities.get(i));
+					s.append(" PRICE ");
+					s.append(prices.get(i));
+					s.append("<br>Reason: ");
+					s.append(refundInput.getText());
+					s.append("<br>");
+				}
+				s.append("</html>");
+				if(notification.sendMessage("Manager", s.toString())==0 && items.size()!=0){
+					JOptionPane.showMessageDialog(null, "Request was sent to Manager!","InfoBox", JOptionPane.INFORMATION_MESSAGE);
+					refundInput.setText("");
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Request failed to send!","InfoBox", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			if(a == statusChangeHelp)
 			{
@@ -720,6 +769,61 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			if(a == refundHelp)
 			{
 				JOptionPane.showMessageDialog(null, "Help will be written in the future","Help", JOptionPane.INFORMATION_MESSAGE);
+			}
+			if(a == btnSelectAll)
+			{
+				if(select == false){
+					for(int y = 0; y < tablemodel2.getRowCount(); y++){
+						if(!orderDisplay2.getValueAt(y, 1).equals("") && !orderDisplay2.getValueAt(y, 1).equals("BALANCE") &&
+								!((String)(orderDisplay2.getValueAt(y, 1))).contains("Payment")){
+							tablemodel2.setValueAt(true, y, 5);
+						}
+						else{
+							tablemodel2.setValueAt(false, y, 5);
+						}
+						btnSelectAll.setText("Unselect All");
+						select = true;
+					}
+				}else{
+					for(int y = 0; y < tablemodel2.getRowCount(); y++){
+							tablemodel2.setValueAt(false, y, 5);
+					}
+						btnSelectAll.setText("Select All");
+						select = false;
+					}
+				tablemodel2.fireTableDataChanged();
+			}
+			if(a == statusChangeButton)
+			{
+				String newStatus = (String)statusChangeBox.getSelectedItem();
+				if(!newStatus.equals("") && !((String)assignedTablesQueue.getSelectedItem()).equals("")){
+				Boolean valid = true;
+				Vector<Vector> data = tablemodel2.getDataVector();
+				Vector<Vector> filtered = new Vector<Vector>();
+				for(int i = 0; i < data.size(); i++){
+					if(((Boolean)data.get(i).get(5))==true){
+						filtered.add(data.get(i));
+					}
+				}
+				for(int i = 0; i < filtered.size(); i++){
+					if(filtered.get(i).get(4).equals("READY") || filtered.get(i).get(4).equals("SERVED")){
+						//Do nothing
+					}
+					else{
+						JOptionPane.showMessageDialog(null, "<html>Status is not READY or SERVED<br>"
+								+ "Waiter cannot change any other status, please use Request Refund or contact a Manager","Help", JOptionPane.ERROR_MESSAGE);
+						valid = false;
+						break;
+					}
+				}
+				if(valid == true){
+					waiter.changeItemStatus(filtered,waiter.parseTableName((String)assignedTablesQueue.getSelectedItem()),newStatus);
+					JOptionPane.showMessageDialog(null, "Statuses successfully changed!","Info", JOptionPane.INFORMATION_MESSAGE);
+					updateManageOrderQueueTable((String)assignedTablesQueue.getSelectedItem());
+				}
+				}else{
+					JOptionPane.showMessageDialog(null, "No status picked or no table selected!","Info", JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			if(a == timer)
 			{
@@ -778,6 +882,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			 **/
 		 
 		 private void tableManageSetup(){
+			 
 			// Table Parameters
 			data2 = new Vector<Vector>();
 			columnnames2 = new Vector();
@@ -787,16 +892,35 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			columnnames2.add("Price");
 			columnnames2.add("Current Status");
 			columnnames2.add("Checkbox");
-			tablemodel2 = new DefaultTableModel() {
+			tablemodel2 = new DefaultTableModel(){
+				@Override
+				public Class<?> getColumnClass(int column) {
+					
+					switch (column) {
 
-			    @Override
-			    public boolean isCellEditable(int row, int column) {
-			       //all cells false
-			       return false;
-			    }
+					case 5:
+						
+						return Boolean.class;
+
+					default:
+
+						return String.class;
+					}
+				}
+	
 			};
 			tablemodel2.setDataVector(data2,columnnames2);
-			orderDisplay2 = new JTable(tablemodel2);
+			orderDisplay2 = new JTable(tablemodel2){
+				@Override
+				public boolean isCellEditable(int rowIndex, int colIndex) {
+				
+					if(orderDisplay2.getValueAt(rowIndex, 1).equals("")){
+						return false;
+					}
+	                return (colIndex == 5);//Disallow the editing of any cell except JCheckBox
+	            }
+
+			};
 			orderDisplay2.setOpaque(true);
 			orderDisplay2.setBackground(Color.white);
 			orderDisplay2.setBorder(BorderFactory.createEmptyBorder());
@@ -807,9 +931,9 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
 			centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 			centerRenderer.setFont(orderDisplay2.getFont().deriveFont(13.0f));
-			for(int x=0;x<tablemodel2.getColumnCount();x++){
+			for(int x=0;x<tablemodel2.getColumnCount()-1;x++){
 				orderDisplay2.getColumnModel().getColumn(x).setCellRenderer(centerRenderer);
-		       }
+		      }
 		 }
 		 
 		 /**
@@ -829,14 +953,33 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			columnnames3.add("Checkbox");
 			tablemodel3 = new DefaultTableModel() {
 
-			    @Override
-			    public boolean isCellEditable(int row, int column) {
-			       //all cells false
-			       return false;
-			    }
+				@Override
+				public Class<?> getColumnClass(int column) {
+					
+					switch (column) {
+
+					case 4:
+						
+						return Boolean.class;
+
+					default:
+
+						return String.class;
+					}
+				}
 			};
 			tablemodel3.setDataVector(data3,columnnames3);
-			orderDisplay3 = new JTable(tablemodel3);
+			orderDisplay3 = new JTable(tablemodel3){
+				@Override
+				public boolean isCellEditable(int rowIndex, int colIndex) {
+				
+					if(orderDisplay3.getValueAt(rowIndex, 1).equals("")){
+						return false;
+					}
+	                return (colIndex == 4);//Disallow the editing of any cell except JCheckBox
+	            }
+
+			};
 			orderDisplay3.setOpaque(true);
 			orderDisplay3.setBackground(Color.white);
 			orderDisplay3.setBorder(BorderFactory.createEmptyBorder());
@@ -863,7 +1006,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		{
 			int tableNumber = waiter.parseTableName((String)tableName);
 			tablemodel2.setDataVector(waiter.getManageOrderQueueDataVector(tableNumber),columnnames2);
-			tablemodel2.fireTableDataChanged();		
+			tablemodel2.fireTableDataChanged();	
+			orderDisplay2.repaint();
 		}
 		
 		private void updateRefundTable(Object tableName)
@@ -893,12 +1037,20 @@ public class WaiterGUI extends JFrame implements ActionListener{
 	            @Override
 	            public void windowClosing(WindowEvent e)
 	            {
+	            	int valid = -1;
 	            	numberPad.setVisible(false);
 	            	if(paymentButtonPressed==0){
-	            		waiter.makePayment(waiter.parseTableName((String)assignedTables.getSelectedItem()),numberPad.get(),"Cash");
+	            		valid = waiter.makePayment(waiter.parseTableName((String)assignedTables.getSelectedItem()),numberPad.get(),"Cash");
 	            	}
 	            	else{
-	            		waiter.makePayment(waiter.parseTableName((String)assignedTables.getSelectedItem()),numberPad.get(),"Card");
+	            		valid = waiter.makePayment(waiter.parseTableName((String)assignedTables.getSelectedItem()),numberPad.get(),"Card");
+	            	}
+	            	updateAcceptPaymentTable((String)assignedTables.getSelectedItem());
+	            	if(valid == 0){
+	            		JOptionPane.showMessageDialog(null, "Payment successfully processed!","Info", JOptionPane.INFORMATION_MESSAGE);
+	            	}
+	            	else{
+	            		JOptionPane.showMessageDialog(null, "Failed to process payment!","Info", JOptionPane.ERROR_MESSAGE);
 	            	}
 	            	payWithCash.setEnabled(true);
 	                payWithCard.setEnabled(true);
