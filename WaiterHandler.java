@@ -113,6 +113,10 @@ public class WaiterHandler {
 				currentOrderBalance -= (Float)i.next();
 			}
 			
+			System.out.println(currentOrderBalance);
+			currentOrderBalance = Float.parseFloat(new String(""+((Math.round(currentOrderBalance*100)))))/100;
+			System.out.println(currentOrderBalance);
+			
 			return 0;
 		}
 		else{
@@ -143,8 +147,20 @@ public class WaiterHandler {
 	
 	public int makePayment(int tableNumber, float payment, String cashOrCard)
 	{
+		getInfoForTable(tableNumber);
+		//If payment < 0.01
+		if(payment < 0.01){
+			JOptionPane.showMessageDialog(null, "Payment must be greater than 0.01!","Payment", JOptionPane.ERROR_MESSAGE);
+			return 1;
+		}
+		//If payment > balance
+		if(payment > currentOrderBalance){
+			JOptionPane.showMessageDialog(null, "Payment must be smaller than the order balance!","Payment", JOptionPane.ERROR_MESSAGE);
+			return 1;
+		}
 		int temp = comm.pushPayment(tableNumber, payment, cashOrCard);
 		comm.getTableOrders(tableNumber);
+		getInfoForTable(tableNumber);
 		return temp;
 	}
 	
