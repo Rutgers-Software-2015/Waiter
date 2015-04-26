@@ -124,7 +124,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 				private JLabel refundLabel;
 				private JTextArea refundInput;
 				private GradientButton submitRefundRequest;
-				private NotificationGUI notification;
+				protected NotificationGUI notification;
 				private GradientButton btnSelectAll;
 				private boolean select = false;
 		
@@ -807,19 +807,114 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			}
 			if(a == statusChangeHelp)
 			{
-				JOptionPane.showMessageDialog(null, "Help will be written in the future","Help", JOptionPane.INFORMATION_MESSAGE);
+				JLabel title3 = new JLabel("What is this for?");
+				title3.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body8 = new JLabel("This interface allows you to request the status change of a table when a customer moves tables or leaves");
+				JLabel title = new JLabel("How to request a status change for a table:");
+				title.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel space = new JLabel(" ");
+				JLabel body1 = new JLabel("1) Choose the table you want to change the status of from the first drop-down menu");
+				JLabel body2 = new JLabel("2) Choose the new status you want from the second drop-down menu");
+				JLabel body3 = new JLabel("3) Hit the \"Send Request to Host\" button to push the request");
+				JLabel space1 = new JLabel(" ");
+				JLabel title2 = new JLabel("Why am I having trouble?");
+				title2.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body4 = new JLabel("1) You may not be connected to the restaurant database (Contact system admin)");
+				Object[] message = {
+					    title3,
+					    body8,
+					    space,
+						title, 
+					    body1,
+					    body2,
+					    body3,
+					    space1,title2,body4
+					};
+				JOptionPane.showMessageDialog(null, message, "Help", JOptionPane.INFORMATION_MESSAGE);
 			}
 			if(a == orderQueueHelp)
 			{
-				JOptionPane.showMessageDialog(null, "Help will be written in the future","Help", JOptionPane.INFORMATION_MESSAGE);
+				JLabel title3 = new JLabel("What is this for?");
+				title3.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body8 = new JLabel("This interface allows you to change the status of an order when it is moved from the kitchen to the dining room, or vice versa");
+				JLabel title1 = new JLabel("How to change the status of an order:");
+				title1.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body1 = new JLabel("1) Choose the table you want to change the status of from the first drop-down menu");
+				JLabel body2 = new JLabel("2) Choose the new status you want from the second drop-down menu");
+				JLabel body3 = new JLabel("3) Select the checkboxes next to the order you want to change or select all");
+				JLabel body4 = new JLabel("4) Hit \"Confirm\" to sync the changes to all employees");
+				JLabel space = new JLabel(" ");
+				JLabel space1 = new JLabel(" ");
+				JLabel title2 = new JLabel("Why am I having trouble?");
+				title2.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body5 = new JLabel("1) Waiters can only change the statuses of orders in READY or SERVED status");
+				JLabel body6 = new JLabel("2) You may not have a table, new status or an order selected");
+				JLabel body7 = new JLabel("3) You may not be connected to the restaurant database (Contact system admin)");
+				Object[] message = {
+					    title3,
+					    body8,
+					    space1,
+						title1, 
+					    body1,
+					    body2,
+					    body3,
+					    body4,
+					    space,
+					    title2,
+					    body5,
+					    body6,
+					    body7
+					};
+				JOptionPane.showMessageDialog(null, message, "Help", JOptionPane.INFORMATION_MESSAGE);
 			}
 			if(a == paymentHelp)
 			{
-				JOptionPane.showMessageDialog(null, "Help will be written in the future","Help", JOptionPane.INFORMATION_MESSAGE);
+				JLabel title1 = new JLabel("What is this for?");
+				title1.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body1 = new JLabel("This interface allows you to accept a payment from a customer via cash or card");
+				JLabel space = new JLabel(" ");
+				JLabel title2 = new JLabel("How to accept a payment from the customer:");
+				title2.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body2 = new JLabel("1) Choose the table of the customer who wants to pay from the drop-down menu");
+				JLabel body3 = new JLabel("2) View the balance and hit either \"Pay with Cash\" or \"Pay with Card\"");
+				JLabel body4 = new JLabel("3) Enter the payment amount into the pop-up number pad and hit \"Submit\"");
+				JLabel body5 = new JLabel("4) You will receive a pop-up with the outcome of the payment");
+				JLabel space1 = new JLabel(" ");
+				JLabel title3 = new JLabel("Why am I having trouble?");
+				title3.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body6 = new JLabel("1) You may be trying to enter a number < 0.01");
+				JLabel body7 = new JLabel("2) You may be trying to enter a number > the current balance");
+				JLabel body8 = new JLabel("3) You may not be connected to the restaurant database (Contact system admin)");
+				Object[] message = {
+					    title1,body1,space,
+					    title2,body2,body3,body4,body5,space1,
+					    title3,body6,body7,body8
+					};
+				JOptionPane.showMessageDialog(null, message, "Help", JOptionPane.INFORMATION_MESSAGE);
 			}
 			if(a == refundHelp)
 			{
-				JOptionPane.showMessageDialog(null, "Help will be written in the future","Help", JOptionPane.INFORMATION_MESSAGE);
+				JLabel title1 = new JLabel("What is this for?");
+				title1.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body1 = new JLabel("This interface allows you request a refund on behalf of the customer");
+				JLabel space = new JLabel(" ");
+				JLabel title2 = new JLabel("How to request a refund:");
+				title2.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body2 = new JLabel("1) Choose the table of the customer who wants the refund from the drop-down menu");
+				JLabel body3 = new JLabel("2) Select the checkbox of the item that the customer is requesting the refund for");
+				JLabel body4 = new JLabel("3) Enter the customer's reason for requesting a refund");
+				JLabel body5 = new JLabel("4) Hit \"Submit Request to Manager\" to alert Manager of the situation");
+				JLabel body6 = new JLabel("5) A pop-up will display showing the outcome of the push request");
+				JLabel space1 = new JLabel(" ");
+				JLabel title3 = new JLabel("Why am I having trouble?");
+				title3.setFont(new Font("Tahoma", Font.BOLD, 13));
+				JLabel body7 = new JLabel("1) You may not be connected to the restaurant database (Contact system admin)");
+				Object[] message = {
+					    title1,body1,space,
+					    title2,body2,body3,body4,body5,body6,space1,
+					    title3,body7
+					};
+				JOptionPane.showMessageDialog(null, message, "Help", JOptionPane.INFORMATION_MESSAGE);
 			}
 			if(a == btnSelectAll)
 			{
