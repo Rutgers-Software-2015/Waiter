@@ -768,6 +768,8 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			}
 			if(a == submitRefundRequest)
 			{
+				Vector<Vector> v = new Vector<Vector>();
+				Vector temp = new Vector();
 				String currentTable = (String) assignedTablesRefund.getSelectedItem();
 				Vector<String> items = new Vector<String>();
 				Vector<Integer> seatNumbers = new Vector<Integer>();
@@ -780,6 +782,11 @@ public class WaiterGUI extends JFrame implements ActionListener{
 							seatNumbers.add((Integer) tablemodel3.getValueAt(i,0));
 							quantities.add((Integer) tablemodel3.getValueAt(i,2));
 							prices.add((String) tablemodel3.getValueAt(i,3));
+							temp.add((Integer) tablemodel3.getValueAt(i,0));
+							temp.add((String) tablemodel3.getValueAt(i,1));
+							temp.add((Integer) tablemodel3.getValueAt(i,2));
+							v.add(temp);
+							temp = new Vector();
 						}
 					}
 				}
@@ -799,6 +806,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 					s.append("<br>");
 				}
 				s.append("</html>");
+				waiter.changeItemStatus(v, waiter.parseTableName(currentTable), "REFUND");
 				if(notification.sendMessage("Manager", s.toString())==0 && items.size()!=0){
 					JOptionPane.showMessageDialog(null, "Request was sent to Manager!","InfoBox", JOptionPane.INFORMATION_MESSAGE);
 					refundInput.setText("");
@@ -1203,7 +1211,15 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		private void updateManageOrderQueueTable(Object tableName)
 		{
 			int tableNumber = waiter.parseTableName((String)tableName);
-			tablemodel2.setDataVector(waiter.getManageOrderQueueDataVector(tableNumber),columnnames2);
+			Vector<Vector> v = waiter.getManageOrderQueueDataVector(tableNumber);
+			for(int i = 0; i < v.size(); i++){
+				if(v.get(i).get(1).equals("") || v.get(i).contains("BALANCE") || v.get(i).contains("Payment - Card") || 
+						v.get(i).contains("Payment - Cash") || v.get(i).contains("PAID")){
+					v.remove(i);
+					i--;
+				}
+			}
+			tablemodel2.setDataVector(v,columnnames2);
 			tablemodel2.fireTableDataChanged();	
 			orderDisplay2.repaint();
 		}
@@ -1219,7 +1235,16 @@ public class WaiterGUI extends JFrame implements ActionListener{
 		private void updateRefundTable(Object tableName)
 		{
 			int tableNumber = waiter.parseTableName((String)tableName);
-			tablemodel3.setDataVector(waiter.getRefundTableDataVector(tableNumber),columnnames3);
+			Vector<Vector> v = waiter.getRefundTableDataVector(tableNumber);
+			
+			for(int i = 0; i < v.size(); i++){
+				if(v.get(i).get(1).equals("") || v.get(i).contains("BALANCE") || v.get(i).contains("Payment - Card") || 
+						v.get(i).contains("Payment - Cash")){
+					v.remove(i);
+					i--;
+				}
+			}
+			tablemodel3.setDataVector(v,columnnames3);
 			tablemodel3.fireTableDataChanged();		
 		}
 		
