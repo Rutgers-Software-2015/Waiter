@@ -166,6 +166,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 	            {
 	                new LoginWindow();
 	                notification.close();
+	                waiter.disconnect();
 	                dispose();
 	            }
 	        });
@@ -699,6 +700,7 @@ public class WaiterGUI extends JFrame implements ActionListener{
 			{
 				new LoginWindow();
 				notification.close();
+				waiter.disconnect();
 				dispose();
 			}
 			if(a == statusButton)
